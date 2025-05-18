@@ -9,6 +9,7 @@ use std::{
     task::Context,
     time::Duration,
 };
+use futures::task::SpawnExt;
 // The timer we wrote in the previous section:
 use timer_future::TimerFuture;
 
@@ -105,10 +106,25 @@ fn main() {
         println!("Fransisca's Komputer: done!");
     });
 
+    spawner.spawn(async {
+        println!("Fransisca's Komputer: howdy2!");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Fransisca's Komputer: done2!");
+    });
+
+    spawner.spawn(async {
+        println!("Fransisca's Komputer: howdy3!");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Fransisca's Komputer: done3!");
+    });
+
+
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
     println!("Fransisca's Komputer: hey hey");
-    drop(spawner);
+    //drop(spawner);
 
     // Run the executor until the task queue is empty.
     // This will print "howdy!", pause, and then print "done!".
