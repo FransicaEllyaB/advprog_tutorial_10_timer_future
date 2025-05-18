@@ -107,6 +107,7 @@ fn main() {
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
+    println!("Fransisca's Komputer: hey hey");
     drop(spawner);
 
     // Run the executor until the task queue is empty.
